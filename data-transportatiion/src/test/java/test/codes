@@ -1,0 +1,193 @@
+
+//    public class InsertProcessor {
+//        public void process(Exchange exchange) throws Exception {
+//            String input = (String) exchange.getIn().getBody();
+//            System.out.println("Input to be persisted : " + input);
+////            String insertQuery = "INSERT INTO contacts values ( '1','" + input+"')";
+////            System.out.println("Insert Query is : " + insertQuery);
+////            exchange.getIn().setBody(insertQuery);
+//        }
+//    }
+//
+//
+//    public class DBPostgresRoute extends RouteBuilder{
+//        public void configure() throws Exception {
+//
+//            from("direct:contacts")
+//                    .to("log:?level=INFO&showBody=true")
+//                    .process(String.valueOf(new InsertProcessor()))
+//                    .to("jdbc:postgresql://localhost:5432/postgres");
+//        }
+//    }
+//
+//    private static DataSource setupDataSource(String connectURI) {
+//        BasicDataSource ds = new BasicDataSource();
+//        ds.setUsername("postgres");
+//        ds.setDriverClassName("org.postgresql.Driver");
+//        ds.setPassword("wissam");
+//        ds.setUrl(connectURI);
+//        return ds;
+//    }
+//
+//
+//    public class DBPostgresRoutes extends RouteBuilder{
+//        public void configure() throws Exception {
+//
+////            from("direct:select")
+////                    .to("log:?level=INFO&showBody=true")
+////                    .to("sql:select * from conatcts?dataSource=")
+////                    .to("log:?level=INFO&showBody=true");
+//            from("src/main/resources/files/index.htm")
+//              .log("${City}")
+//              .process(new Processor() {
+//                  @Override
+//                  public void process(Exchange exchange) throws Exception {
+//                      String myBody = (String) exchange.getIn().getBody();
+//
+//                      System.out.println("This is my body: " + myBody);
+//                  }
+//              })
+//              .log(LoggingLevel.INFO, "Processed");
+//        }
+//    }
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//    public static void main(String[] args) throws Exception {
+//        final String url = "jdbc:oracle:thin:@MYSERVER:1521:myDB";
+//        DataSource dataSource = setupDataSource(url);
+//
+//        SimpleRegistry reg = new SimpleRegistry() ;
+//        reg.put("myDataSource",dataSource);
+//
+//        CamelContext context = new DefaultCamelContext(reg);
+////        context.addRoutes(new JDBCExampleSimpleRegistry().new MyRouteBuilder());
+//
+//        context.start();
+//        Thread.sleep(5000);
+//        context.stop();
+//    }
+//
+//    class MyRouteBuilder extends RouteBuilder
+//    {
+//        public void configure()
+//        {
+//            String dst = "C:/Local Disk E/TestData/Destination/?fileName=output.txt";
+//            from("direct:myTable")
+//              .setBody(constant("select * from myTable"))
+//              .to("jdbc:myDataSource")
+//              .to("file://" + dst);
+//        }
+//    }
+//    private static DataSource setupDataSource(String connectURI) {
+//        BasicDataSource ds = new BasicDataSource();
+//        ds.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+//        ds.setUsername("sa");
+//        ds.setPassword("devon1");
+//        ds.setUrl(connectURI);
+//        return ds;
+//    }
+
+
+//-----------------------------------------------------------------------------------------------------------------------------
+
+
+//            System.out.println("trying to copy file");
+//            CamelContext ctx = new DefaultCamelContext();
+//            RouteBuilder route = new RouteBuilder() {
+//                @Override
+//                public void configure() throws Exception {
+//                    from("src/main/resources/files/index.html&charset=utf-8")
+//                      .to("src/email-spool?fileName=outindex.html&charset=utf-8");
+//                }
+//            };
+//            ctx.addRoutes(route);
+//            ctx.start();
+//            // Maybe sleep a little here
+//             Thread.sleep(30000);
+//            ctx.stop();
+
+//----------------------------------------------------------------------------------------------------------
+
+
+//
+//  public static void main(String args[]) throws Exception {
+//
+//    CamelContext context = new DefaultCamelContext();
+//
+//    context.addRoutes(new RouteBuilder() {
+//      @Override
+//      public void configure() {
+//
+//        PropertiesComponent pc = getContext().getComponent(
+//          "properties", PropertiesComponent.class);
+//        pc.setLocation("classpath:mail.properties");
+//
+//        from("direct:start")
+//          .to("smtp://127.0.0.1?username=username&password=password&from=jangosmtp.net&contentType={{contentType}}")
+//          .log("Email sent with content ${in.body}");
+//
+//      }
+//    });
+//
+//    // start the route and let it do its work
+//
+//    context.start();
+//
+//
+//
+//    ProducerTemplate template = context.createProducerTemplate();
+//
+//    template.sendBodyAndHeader("direct:start", "Test mail from smtp", "subject", "First Test Mail with content type");
+//
+//    // stop the CamelContext
+//
+//    context.stop();
+//  }
+//
+//-------------------------------------------------------------------------------------------------------------------
+
+//  public static void main(String [] args) {
+//    // Recipient's email ID needs to be mentioned.
+//    String to = "abcd@gmail.com";
+//
+//    // Sender's email ID needs to be mentioned
+//    String from = "web@gmail.com";
+//
+//    // Assuming you are sending email from localhost
+//    String host = "localhost";
+//
+//    // Get system properties
+//    Properties properties = System.getProperties();
+//
+//    // Setup mail server
+//    properties.setProperty("mail.smtp.host", host);
+//
+//    // Get the default Session object.
+//    Session session = Session.getDefaultInstance(properties);
+//
+//    try {
+//      // Create a default MimeMessage object.
+//      MimeMessage message = new MimeMessage(session);
+//
+//      // Set From: header field of the header.
+//      message.setFrom(new InternetAddress(from));
+//
+//      // Set To: header field of the header.
+//      message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+//
+//      // Set Subject: header field
+//      message.setSubject("This is the Subject Line!");
+//
+//      // Now set the actual message
+//      message.setText("This is actual message");
+//
+//      // Send message
+//      Transport.send(message);
+//      System.out.println("Sent message successfully....");
+//    } catch (MessagingException mex) {
+//      mex.printStackTrace();
+//    }
+//  }
